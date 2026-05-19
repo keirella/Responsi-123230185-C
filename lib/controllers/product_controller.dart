@@ -12,6 +12,7 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fetchProducts();
   }
 
   Future<void> fetchProducts() async {
@@ -19,9 +20,14 @@ class ProductController extends GetxController {
     errorMessage.value = '';
 
     try {
-      products.value = await _apiService.fetchProducts();
+      final result = await _apiService.fetchProducts();
+      if (result.isEmpty) {
+        errorMessage.value = 'Data kosong atau gagal mem-parsing JSON';
+      } else {
+        products.value = result;
+      }
     } catch (error) {
-      errorMessage.value = error.toString();
+      errorMessage.value = 'Gagal memuat data: $error';
     } finally {
       isLoading.value = false;
     }

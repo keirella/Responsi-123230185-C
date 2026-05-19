@@ -1,15 +1,15 @@
 class ProductModel {
-  final int id;
+  final String id; 
   final String name;
   final int playtime;
   final String released;
   final int tba;
-  final int rating;
+  final double rating;
   final int rating_count;
   final int review_count;
   final String created_at;
   final String update_at;
-  final List<String> background_images;
+  final String background_image;
 
   ProductModel({
     required this.id,
@@ -22,22 +22,22 @@ class ProductModel {
     required this.review_count,
     required this.created_at,
     required this.update_at,
-    required this.background_images,
+    required this.background_image,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'] ?? 0,
+      id: json['id']?.toString() ?? '', 
       name: json['name'] ?? '',
-      playtime: json['playtime'] ?? '',
-      released: json['released'] ?? '',
-      rating: json['rating'] ?? '',
-      tba: (json['tba'] ?? 0).toDouble(),
-      rating_count: json['rating_count'] ?? '',
-      review_count: json['rating_count'] ?? '',
-      created_at: json['created_at'] ?? '',
-      update_at: json['update_at'] ?? 0,
-      background_images: List<String>.from(json['background_images'] ?? []),
+      playtime: json['playtime'] ?? 0,
+      released: json['released']?.toString() ?? '-',
+      tba: json['tba'] ?? 0,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      rating_count: json['ratings_count'] ?? 0,
+      review_count: json['reviews_count'] ?? 0,
+      created_at: json['created_at']?.toString() ?? '-',
+      update_at: json['updated_at']?.toString() ?? '-',
+      background_image: json['background_image']?.toString() ?? '',
     );
   }
 }

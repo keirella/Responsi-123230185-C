@@ -14,7 +14,7 @@ class ApiService {
     }
 
     final data = jsonDecode(response.body) as Map<String, dynamic>;
-    final products = data['products'] as List<dynamic>;
+    final products = data['data'] as List<dynamic>;
 
     return products
         .map((item) => ProductModel.fromJson(item as Map<String, dynamic>))

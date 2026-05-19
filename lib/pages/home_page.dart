@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:responsi/controllers/auth_controller.dart';
 import 'package:responsi/controllers/product_controller.dart';
 import 'package:responsi/pages/cart_page.dart';
+import 'package:responsi/pages/detail_page.dart';
 import 'package:responsi/widgets/product_card.dart';
 
 class HomePage extends StatelessWidget {
@@ -53,6 +54,15 @@ class HomePage extends StatelessWidget {
             );
           }
 
+          if (productController.products.isEmpty) {
+            return const Center(
+              child: Text(
+                'Tidak ada data game. Periksa parsing JSON / koneksi internet.',
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+
           return RefreshIndicator(
             onRefresh: productController.fetchProducts,
             child: ListView.separated(
@@ -61,7 +71,13 @@ class HomePage extends StatelessWidget {
               separatorBuilder: (context, index) =>
                   const SizedBox(height: 12),
               itemBuilder: (context, index) {
-                return ProductCard(product: productController.products[index]);
+                final product = productController.products[index];
+                return InkWell(
+                  onTap: () {
+                    Get.to(() => DetailPage(product: product));
+                  },
+                  child: ProductCard(product: product),
+                );
               },
             ),
           );

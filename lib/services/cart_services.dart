@@ -28,21 +28,20 @@ class CartService {
           name: product.name,
           released: product.released,
           rating: product.rating,
-          quantity: quantity,  
-          image_url: '',
+          quantity: quantity,
+          image_url: product.background_image,
         ),
       );
       return;
     }
 
-    existingItem.quantity =
-        (existingItem.quantity + quantity).clamp(1, product.tba).toInt();
+    existingItem.quantity = existingItem.quantity + quantity;
     await existingItem.save();
   }
 
-  Future<void> removeItem(String username, int productId) async {
+  Future<void> removeItem(String username, String productId) async {
     await _box.delete(_key(username, productId));
   }
 
-  String _key(String username, int productId) => '$username-$productId';
+  String _key(String username, String productId) => '${username}_$productId';
 }

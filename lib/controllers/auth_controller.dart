@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import 'package:responsi/pages/login_page.dart';
 import 'package:responsi/pages/main_page.dart';
-
 import '../services/auth_services.dart';
 
 class AuthController extends GetxController {
@@ -30,7 +28,7 @@ class AuthController extends GetxController {
     isLoggingIn.value = false;
 
     if (!success) {
-      Get.snackbar('Login gagal', 'Username wajib diisi dan password harus NIM.');
+      Get.snackbar('Login gagal', 'Username minimal 5 karakter & password harus 3 digit NIM.');
       return;
     }
 
@@ -41,6 +39,5 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     await _authService.logout();
     username.value = '';
-    Get.offAll(() => const LoginPage());
   }
 }

@@ -11,11 +11,16 @@ import 'package:responsi/services/cart_services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Hive.initFlutter();
+  
   if (!Hive.isAdapterRegistered(1)) {
     Hive.registerAdapter(CartItemAdapter());
   }
-  await Hive.openBox<CartItemModel>(CartService.boxName);
+  
+  if (!Hive.isBoxOpen(CartService.boxName)) {
+    await Hive.openBox<CartItemModel>(CartService.boxName);
+  }
 
   Get.put(AuthController());
   Get.put(ProductController());

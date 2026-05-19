@@ -16,7 +16,6 @@ class _DetailPageState extends State<DetailPage> {
   int _quantity = 1;
 
   void _increaseQuantity() {
-    if (_quantity >= widget.product.tba) return;
     setState(() => _quantity++);
   }
 
@@ -31,99 +30,174 @@ class _DetailPageState extends State<DetailPage> {
     final product = widget.product;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Detail Produk')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: AspectRatio(
-              aspectRatio: 1.3,
-              child: Image.network(
-                product.background_images as String,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 250,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                product.background_image,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => const ColoredBox(
-                  color: Color(0xFFE0E0E0),
-                  child: Icon(Icons.image_not_supported_outlined, size: 48),
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.grey,
+                  child: Icon(Icons.broken_image, size: 50, color: Colors.white),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 18),
-          Text(
-            product.name,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '\$${product.tba.toStringAsFixed(2)}',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.teal,
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-          const SizedBox(height: 16),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _InfoChip(icon: Icons.new_releases_outlined, label: product.released),
-              _InfoChip(icon: Icons.inventory_2_outlined, label: 'tba ${product.tba}'),
-              _InfoChip(icon: Icons.star_outline, label: 'Rating ${product.rating}'),
-              _InfoChip(icon: Icons.update_outlined, label: 'Update at ${product.update_at}%'),
-              _InfoChip(icon: Icons.reviews_outlined, label: 'Review ${product.review_count}%'),
-            ],
-          ),
-          const SizedBox(height: 18),
-          Row(
-            children: [
-              const Text('Quantity'),
-              const Spacer(),
-              IconButton.filledTonal(
-                onPressed: _decreaseQuantity,
-                icon: const Icon(Icons.remove),
+          SliverPadding(
+            padding: const EdgeInsets.all(20),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          product.name,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 22),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${product.rating}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'ID: ${product.id}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Released: ${product.released}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Last Updated: ${product.update_at}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[500],
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      _buildInfoChip(Icons.people_outline, 'Ratings: ${product.rating_count}'),
+                      _buildInfoChip(Icons.rate_review_outlined, 'Reviews: ${product.review_count}'),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    children: [
+                      const Text(
+                        'Quantity',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: _decreaseQuantity,
+                        icon: const Icon(Icons.remove_circle_outline, color: Colors.teal, size: 28),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          '$_quantity',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: _increaseQuantity,
+                        icon: const Icon(Icons.add_circle_outline, color: Colors.teal, size: 28),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: FilledButton.icon(
+                      onPressed: () => cartController.addToCart(product, _quantity),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      icon: const Icon(Icons.add_shopping_cart, color: Colors.white),
+                      label: const Text(
+                        'Add to Cart',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 48,
-                child: Text(
-                  '$_quantity',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ),
-              IconButton.filledTonal(
-                onPressed: _increaseQuantity,
-                icon: const Icon(Icons.add),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          FilledButton.icon(
-            onPressed: product.tba == 0
-                ? null
-                : () => cartController.addToCart(product, _quantity),
-            icon: const Icon(Icons.add_shopping_cart),
-            label: const Text('Add to Cart'),
+            ),
           ),
         ],
       ),
     );
   }
-}
 
-class _InfoChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const _InfoChip({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      avatar: Icon(icon, size: 18),
-      label: Text(label),
+  Widget _buildInfoChip(IconData icon, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: Colors.grey[700]),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

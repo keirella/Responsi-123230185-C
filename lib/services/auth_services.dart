@@ -6,7 +6,7 @@ class AuthService {
   static const String _usernameKey = 'username';
 
   Future<bool> login(String username, String password) async {
-    if (username.trim().isEmpty || password != _nimPassword) {
+    if (username.trim().length < 5 || password != _nimPassword) {
       return false;
     }
 

@@ -13,47 +13,68 @@ class CartItemCard extends StatelessWidget {
     final cartController = Get.find<CartController>();
 
     return Card(
+      elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
                 item.image_url,
-                width: 76,
-                height: 76,
+                width: 70,
+                height: 70,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: 76,
-                  height: 76,
-                  color: const Color(0xFFE0E0E0),
-                  child: const Icon(Icons.image_not_supported_outlined),
-                ),
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.broken_image, size: 70),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     item.name,
-                    maxLines: 2,
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
                   ),
-                  const SizedBox(height: 6),
-                  Text('Qty: ${item.quantity}'),
+                  const SizedBox(height: 2),
+                  Text(
+                    'ID: ${item.id}',
+                    style: TextStyle(fontSize: 11, color: Colors.grey[600], fontWeight: FontWeight.w500),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Released: ${item.released}',
+                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                  ),
                 ],
               ),
             ),
-            IconButton(
-              tooltip: 'Hapus',
-              onPressed: () => cartController.removeItem(item.id),
-              icon: const Icon(Icons.delete_outline),
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove_circle_outline, color: Colors.teal),
+                  onPressed: () => cartController.updateQuantity(item, item.quantity - 1),
+                ),
+                Text(
+                  '${item.quantity}',
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add_circle_outline, color: Colors.teal),
+                  onPressed: () => cartController.updateQuantity(item, item.quantity + 1),
+                ),
+                const SizedBox(width: 4),
+                IconButton(
+                  icon: const Icon(Icons.delete_outline, color: Colors.red),
+                  onPressed: () => cartController.removeItem(item.id),
+                ),
+              ],
             ),
           ],
         ),

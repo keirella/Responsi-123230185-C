@@ -1,12 +1,26 @@
 import 'package:hive/hive.dart';
 
+@HiveType(typeId: 1)
 class CartItemModel extends HiveObject {
+  @HiveField(0)
   final String username;
-  final int id;
+
+  @HiveField(1)
+  final String id; 
+
+  @HiveField(2)
   final String name;
+
+  @HiveField(3)
   final String released;
-  final int rating;
+
+  @HiveField(4)
+  final double rating;
+
+  @HiveField(5)
   final String image_url;
+
+  @HiveField(6)
   int quantity;
 
   CartItemModel({
@@ -15,10 +29,9 @@ class CartItemModel extends HiveObject {
     required this.name,
     required this.released,
     required this.rating,
-    required this. image_url,
+    required this.image_url,
     required this.quantity,
   });
-
 }
 
 class CartItemAdapter extends TypeAdapter<CartItemModel> {
@@ -35,12 +48,12 @@ class CartItemAdapter extends TypeAdapter<CartItemModel> {
 
     return CartItemModel(
       username: fields[0] as String,
-      id: fields[1] as int,
+      id: fields[1]?.toString() ?? '', 
       name: fields[2] as String,
       released: fields[3] as String,
-      rating: fields[5] as int,
-      image_url: fields[6] as String,
-      quantity: fields[7] as int,
+      rating: (fields[4] as num).toDouble(),
+      image_url: fields[5] as String,
+      quantity: fields[6] as int,
     );
   }
 
@@ -56,7 +69,11 @@ class CartItemAdapter extends TypeAdapter<CartItemModel> {
       ..write(obj.name)
       ..writeByte(3)
       ..write(obj.released)
+      ..writeByte(4)
+      ..write(obj.rating)
       ..writeByte(5)
-      ..write(obj.rating);
+      ..write(obj.image_url)
+      ..writeByte(6)
+      ..write(obj.quantity);
   }
 }
