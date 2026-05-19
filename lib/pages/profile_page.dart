@@ -33,7 +33,25 @@ class ProfilePage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Pengguna aplikasi toko online Latres IF-C. Session login disimpan sampai tombol logout ditekan.',
+                'Kesan: susah sekali mas.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Pesan: ga tau lagi pusing.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Kritik: ga tau juga.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Saran: tida tau lagi.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),

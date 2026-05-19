@@ -12,7 +12,6 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchProducts();
   }
 
   Future<void> fetchProducts() async {
