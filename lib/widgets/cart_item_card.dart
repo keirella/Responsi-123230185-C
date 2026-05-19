@@ -58,7 +58,7 @@ class CartItemCard extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.remove_circle_outline, color: Colors.teal),
+                  icon: const Icon(Icons.remove_circle_outline, color: const Color(0xFFE08295)),
                   onPressed: () => cartController.updateQuantity(item, item.quantity - 1),
                 ),
                 Text(
@@ -66,7 +66,7 @@ class CartItemCard extends StatelessWidget {
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.add_circle_outline, color: Colors.teal),
+                  icon: const Icon(Icons.add_circle_outline, color: const Color(0xFFE08295)),
                   onPressed: () => cartController.updateQuantity(item, item.quantity + 1),
                 ),
                 const SizedBox(width: 4),

@@ -126,7 +126,7 @@ class _DetailPageState extends State<DetailPage> {
                       const Spacer(),
                       IconButton(
                         onPressed: _decreaseQuantity,
-                        icon: const Icon(Icons.remove_circle_outline, color: Colors.teal, size: 28),
+                        icon: const Icon(Icons.remove_circle_outline, color: const Color(0xFFE08295), size: 28),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -140,7 +140,7 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       IconButton(
                         onPressed: _increaseQuantity,
-                        icon: const Icon(Icons.add_circle_outline, color: Colors.teal, size: 28),
+                        icon: const Icon(Icons.add_circle_outline, color: const Color(0xFFE08295), size: 28),
                       ),
                     ],
                   ),

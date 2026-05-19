@@ -22,7 +22,7 @@ class ProfilePage extends StatelessWidget {
           const Center(
             child: CircleAvatar(
               radius: 50,
-              backgroundColor: Colors.teal,
+              backgroundColor: const Color(0xFFE08295),
               child: Icon(
                 Icons.person,
                 size: 55,
@@ -102,7 +102,7 @@ class ProfilePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
-        leading: Icon(icon, color: Colors.teal),
+        leading: Icon(icon, color: const Color(0xFFE08295)),
         title: Text(
           label,
           style: const TextStyle(

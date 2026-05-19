@@ -38,9 +38,9 @@ class MainApp extends StatelessWidget {
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Latres Online Shop',
+      title: '🌸Online Shop🌸',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFE08295)),
         useMaterial3: true,
       ),
       home: Obx(
